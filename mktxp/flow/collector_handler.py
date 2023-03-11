@@ -112,10 +112,6 @@ class CollectorHandler:
         if not self._valid_collect_interval():
             return
 
-        # bandwidth collector
-        yield from self.collector_registry.bandwidthCollector.collect()
-
-        # all other collectors
         # Check whether to run in parallel by looking at the mktxp system configuration
         parallel = config_handler.system_entry().fetch_routers_in_parallel
         max_worker_threads = config_handler.system_entry().max_worker_threads
