@@ -27,6 +27,8 @@ from mktxp.cli.output.wifi_out import WirelessOutput
 from mktxp.cli.output.dhcp_out import DHCPOutput
 from mktxp.cli.output.conn_stats_out import ConnectionsStatsOutput
 
+import socket
+
 
 class ExportProcessor:
     ''' Base Export Processing
@@ -38,7 +40,8 @@ class ExportProcessor:
 
     @staticmethod
     def run(server_class=HTTPServer, handler_class=MetricsHandler, port=None):
-        server_address = ('', port)
+        server_class.address_family = socket.AF_INET6
+        server_address = ('::1', port)
         httpd = server_class(server_address, handler_class)
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f'{current_time} Running HTTP metrics server on port {port}')
